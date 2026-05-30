@@ -1,13 +1,12 @@
-        "import streamlit as st\n",
-        "from PIL import Image, ImageDraw\n",
-        "import io\n",
-        "import urllib.request\n",
-        "from datetime import datetime\n",
-        "import pytz\n",
-        "\n",
-        "st.set_page_config(page_title=\"BEJIN Studio: Custon shirt Studio\", page_icon=\"👕\", layout=\"wide\")\n",
-        "\n",
-        "# --- Initialize Global Session States ---\n",
+import streamlit as st
+from PIL import Image, ImageDraw
+import io
+import urllib.request
+from datetime import datetime
+import pytz
+
+st.set_page_config(page_title="BEJIN Studio", page_icon="👕", layout="wide")
+
         "if 'cart' not in st.session_state:\n",
         "    st.session_state['cart'] = []\n",
         "if 'current_step' not in st.session_state:\n",
