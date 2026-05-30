@@ -5,6 +5,7 @@ import urllib.request
 from datetime import datetime
 import pytz
 
+# --- ตั้งค่าหน้าเว็บ ---
 st.set_page_config(page_title="BEJIN Studio: Custom shirt Studio", page_icon="👕", layout="wide")
 
 # --- Initialize Global Session States ---
@@ -37,12 +38,7 @@ def fetch_emoji_image(emoji_name):
 
 # --- Mockup Engine ---
 def create_shirt_mockup(color_name, text, text_size, uploaded_file, img_size, emoji, pos="Center"):
-    color_map = {
-        "Classic White ⚪": (255, 255, 255),
-        "Pitch Black ⚫": (30, 30, 30),
-        "Navy Blue 🔵": (20, 40, 80),
-        "Deep Green 🟢": (20, 60, 40)
-    }
+    color_map = {"Classic White ⚪": (255, 255, 255), "Pitch Black ⚫": (30, 30, 30), "Navy Blue 🔵": (20, 40, 80), "Deep Green 🟢": (20, 60, 40)}
     bg_color = color_map.get(color_name, (255, 255, 255))
     text_color = (255, 255, 255) if color_name not in ["Classic White ⚪"] else (50, 50, 50)
     img = Image.new('RGB', (400, 400), (243, 242, 238))
@@ -70,17 +66,16 @@ def create_shirt_mockup(color_name, text, text_size, uploaded_file, img_size, em
 
 def calculate_item_price(item):
     price = 25000
-    if item['f_emoji'] != "None": price += 2000
-    if item['f_img'] is not None: price += 5000
-    if item['b_emoji'] != "None": price += 2000
-    if item['b_img'] is not None: price += 5000
+    if item.get('f_emoji') != "None": price += 2000
+    if item.get('f_img') is not None: price += 5000
+    if item.get('b_emoji') != "None": price += 2000
+    if item.get('b_img') is not None: price += 5000
     return price
 
 def generate_jpeg_receipt(cart):
     total_qty = len(cart)
     receipt = Image.new('RGB', (1000, 700 + (total_qty * 160)), (250, 249, 246))
     draw = ImageDraw.Draw(receipt)
-    now = datetime.now(pytz.timezone('Asia/Seoul'))
     draw.rectangle([40, 40, 960, receipt.height - 40], outline=(47, 62, 43), width=3)
     draw.text((500, 110), "BEJIN.studio", fill=(47, 62, 43), anchor="mm", font_size=46)
     y_pos = 240
@@ -101,7 +96,7 @@ def go_to_step(step_name):
     st.session_state['current_step'] = step_name
     st.rerun()
 
-# --- Main Logic ---
+# --- เมนูหลัก ---
 options = ["Welcome Studio ✨", "Step 1: Design Workshop", "Step 2: Finalize Order"]
 sidebar_selection = st.sidebar.radio("Navigation", options, index=options.index(st.session_state['current_step']))
 if sidebar_selection != st.session_state['current_step']:
